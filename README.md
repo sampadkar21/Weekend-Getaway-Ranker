@@ -48,67 +48,45 @@ The dataset (`final_data_with_coords.csv`) contains curated information about In
 
 ---
 
-## Mathematical Formulation
+### Mathematical Formulation
 
-### 1. Distance Calculation (Haversine Formula)
+#### 1. Distance Calculation (Haversine Formula)
 
-To compute the geographical distance between a **source city** and a **destination**, the Haversine formula is used.  
-It calculates the great-circle distance between two points on the Earth using latitude and longitude.
+To compute the geographical distance between a **source city** and a **destination**, we use the Haversine formula. It calculates the great-circle distance between two points on the Earth using their latitude and longitude.
 
-\begin{aligned}
-\Delta \phi &= \phi_2 - \phi_1 \\
-\Delta \lambda &= \lambda_2 - \lambda_1 \\
-a &= \sin^2\left(\frac{\Delta \phi}{2}\right)
-    + \cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta \lambda}{2}\right) \\
-c &= 2 \cdot \tan^{-1}\left(\frac{\sqrt{a}}{\sqrt{1-a}}\right) \\
-d &= R \cdot c
-\end{aligned}
+**Where:**
 
-Where:
-- \(\phi_1, \phi_2\) are latitudes (in radians)
-- \(\lambda_1, \lambda_2\) are longitudes (in radians)
-- \(R = 6371\) km (Earth’s radius)
-- \(d\) is the distance in kilometers
+* : Latitudes (in radians)
+* : Longitudes (in radians)
+* : Earth’s radius ()
+* : Distance in kilometers
 
-Only destinations within **250 km** are considered for recommendations.
+> **Note:** Only destinations where  are considered for the final recommendation list.
 
 ---
 
-### 2. Bayesian Popularity Score (Optional Extension)
+#### 2. Bayesian Popularity Score (Optional Extension)
 
-Raw ratings alone can be misleading when review counts differ significantly.  
-A **Bayesian weighted popularity score** stabilizes destination rankings.
+Raw ratings can be misleading if a destination has very few reviews. A **Bayesian weighted popularity score** stabilizes the rankings by penalizing items with low review counts.
 
-\text{Popularity} =
-\frac{v}{v + m} \cdot R
-+
-\frac{m}{v + m} \cdot C
+**Where:**
 
-Where:
-- \(R\) = destination’s average Google review rating  
-- \(v\) = number of reviews  
-- \(C\) = mean rating across all destinations  
-- \(m\) = median number of reviews (confidence threshold)
-
-This prevents destinations with very few reviews from being over-ranked.
+* : Destination’s average Google review rating
+* : Number of reviews for the destination
+* : Mean rating across *all* destinations
+* : Minimum reviews required to be listed (typically the median review count)
 
 ---
 
-### 3. Final Destination Ranking Score
+#### 3. Final Destination Ranking Score
 
-Each destination is assigned a final ranking score balancing **quality** and **travel convenience**.
+Each destination is assigned a final ranking score that balances **quality** (rating) and **travel convenience** (proximity). We prioritize higher ratings but give a slight boost to closer locations.
 
-\[
-\text{Final Rank} =
-0.7 \times \text{Rating}
-+
-0.3 \times \frac{1}{\text{Distance}_{km} + 1}
-\]
+**Where:**
 
-Where:
-- `Rating` is the Google review rating
-- `Distanceₖₘ` is the Haversine distance from the source city
-- The constant \(+1\) avoids division by zero
+* : The Google review rating ( to )
+* : The calculated Haversine distance
+* The term  prevents division by zero if the distance is negligible.
 
 ---
 

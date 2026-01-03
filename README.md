@@ -153,7 +153,11 @@ The top weekend destinations are printed to the console.
 
 ## Sample Output
 
+![img1](outputs/out 1.png)
 
+![img2](outputs/out 2.png)
+
+![img3](outputs/out 3.png)
 
 ---
 

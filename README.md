@@ -63,8 +63,6 @@ d &= R \cdot c
 \end{aligned}$$
 
 **Where:**
-
-Where:
 * : $\phi_1, \phi_2$: Latitudes (in radians)
 * : $\lambda_1, \lambda_2$: Longitudes (in radians)
 * : $R$: Earth’s radius ($6371 \text{ km}$)
@@ -79,11 +77,10 @@ Raw ratings can be misleading if a destination has very few reviews. A **Bayesia
 $$\text{Score} = \left( \frac{v}{v + m} \cdot R \right) + \left( \frac{m}{v + m} \cdot C \right)$$
 
 **Where:**
-
-* : Destination’s average Google review rating
-* : Number of reviews for the destination
-* : Mean rating across *all* destinations
-* : Minimum reviews required to be listed (typically the median review count)
+* : $R$: Destination’s average Google review rating
+* : $v$: Number of reviews for the destination
+* : $C$: Mean rating across all destinations
+* : $m$: Minimum reviews required to be listed (typically the median review count)
 
 ---
 

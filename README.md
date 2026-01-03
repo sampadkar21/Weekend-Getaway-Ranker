@@ -54,20 +54,29 @@ The dataset (`final_data_with_coords.csv`) contains curated information about In
 
 To compute the geographical distance between a **source city** and a **destination**, we use the Haversine formula. It calculates the great-circle distance between two points on the Earth using their latitude and longitude.
 
+$$\begin{aligned}
+\Delta \phi &= \phi_2 - \phi_1 \\
+\Delta \lambda &= \lambda_2 - \lambda_1 \\
+a &= \sin^2\left(\frac{\Delta \phi}{2}\right) + \cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta \lambda}{2}\right) \\
+c &= 2 \cdot \arctan2\left(\sqrt{a}, \sqrt{1-a}\right) \\
+d &= R \cdot c
+\end{aligned}$$
+
 **Where:**
 
-* : Latitudes (in radians)
-* : Longitudes (in radians)
-* : Earth’s radius ()
-* : Distance in kilometers
-
-> **Note:** Only destinations where  are considered for the final recommendation list.
+Where:
+* : $\phi_1, \phi_2$: Latitudes (in radians)
+* : $\lambda_1, \lambda_2$: Longitudes (in radians)
+* : $R$: Earth’s radius ($6371 \text{ km}$)
+* : $d$: Distance in kilometers
 
 ---
 
 #### 2. Bayesian Popularity Score (Optional Extension)
 
 Raw ratings can be misleading if a destination has very few reviews. A **Bayesian weighted popularity score** stabilizes the rankings by penalizing items with low review counts.
+
+$$\text{Score} = \left( \frac{v}{v + m} \cdot R \right) + \left( \frac{m}{v + m} \cdot C \right)$$
 
 **Where:**
 
